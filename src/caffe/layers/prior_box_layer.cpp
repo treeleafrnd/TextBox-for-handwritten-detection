@@ -56,6 +56,7 @@ void PriorBoxLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype>*>& bottom,
     // Set default to 0.1.
     variance_.push_back(0.1);
   }
+  num_priors_=2*num_priors_;
 }
 
 template <typename Dtype>
@@ -91,6 +92,7 @@ void PriorBoxLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     for (int w = 0; w < layer_width; ++w) {
       float center_x = (w + 0.5) * step_x;
       float center_y = (h + 0.5) * step_y;
+      float center_y_offset_1 = (h + 1.0) * step_y;
       float box_width, box_height;
       // first prior: aspect_ratio = 1, size = min_size
       box_width = box_height = min_size_;
@@ -102,6 +104,14 @@ void PriorBoxLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       top_data[idx++] = (center_x + box_width / 2.) / img_width;
       // ymax
       top_data[idx++] = (center_y + box_height / 2.) / img_height;
+      // xmin
+      top_data[idx++] = (center_x - box_width / 2.) / img_width;
+      // ymin
+      top_data[idx++] = (center_y_offset_1 - box_height / 2.) / img_height;
+      // xmax
+      top_data[idx++] = (center_x + box_width / 2.) / img_width;
+      // ymax
+      top_data[idx++] = (center_y_offset_1 + box_height / 2.) / img_height;
 
       if (max_size_ > 0) {
         // second prior: aspect_ratio = 1, size = sqrt(min_size * max_size)
@@ -114,6 +124,14 @@ void PriorBoxLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
         top_data[idx++] = (center_x + box_width / 2.) / img_width;
         // ymax
         top_data[idx++] = (center_y + box_height / 2.) / img_height;
+        // xmin
+        top_data[idx++] = (center_x - box_width / 2.) / img_width;
+        // ymin
+        top_data[idx++] = (center_y_offset_1 - box_height / 2.) / img_height;
+        // xmax
+        top_data[idx++] = (center_x + box_width / 2.) / img_width;
+        // ymax
+        top_data[idx++] = (center_y_offset_1 + box_height / 2.) / img_height;
       }
 
       // rest of priors
@@ -132,6 +150,14 @@ void PriorBoxLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
         top_data[idx++] = (center_x + box_width / 2.) / img_width;
         // ymax
         top_data[idx++] = (center_y + box_height / 2.) / img_height;
+        // xmin
+        top_data[idx++] = (center_x - box_width / 2.) / img_width;
+        // ymin
+        top_data[idx++] = (center_y_offset_1 - box_height / 2.) / img_height;
+        // xmax
+        top_data[idx++] = (center_x + box_width / 2.) / img_width;
+        // ymax
+        top_data[idx++] = (center_y_offset_1 + box_height / 2.) / img_height;
       }
     }
   }
@@ -147,6 +173,7 @@ void PriorBoxLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     caffe_set<Dtype>(dim, Dtype(variance_[0]), top_data);
   } else {
     int count = 0;
+    // for (int h = 0; h < layer_height; ++h) {
     for (int h = 0; h < layer_height; ++h) {
       for (int w = 0; w < layer_width; ++w) {
         for (int i = 0; i < num_priors_; ++i) {
