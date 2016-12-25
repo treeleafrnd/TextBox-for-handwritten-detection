@@ -1,11 +1,11 @@
 # TextBoxes: A Fast Text Detector with a Single Deep Neural Network
 
-
 ### Introduction
 This paper presents an end-to-end trainable fast scene text detector, named TextBoxes, which detects scene text with both high accuracy and efficiency in a single network forward pass, involving no post-process except for a standard nonmaximum suppression. For more details, please refer to our [arXiv paper](https://arxiv.org/abs/1611.06779).
 
 ### Citing TextBoxes
 Please cite TextBoxes in your publications if it helps your research:
+
     @article{DBLP:journals/corr/LiaoSBWL16,
       author    = {Minghui Liao and
                    Baoguang Shi and
