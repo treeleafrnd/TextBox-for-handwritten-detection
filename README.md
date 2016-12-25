@@ -26,12 +26,15 @@ Please cite TextBoxes in your publications if it helps your research:
 1. Get the code. We will call the directory that you cloned Caffe into `$CAFFE_ROOT`
   ```Shell
   git clone https://github.com/MhLiao/caffe.git
+  
   cd caffe
+  
   git checkout TextBoxes
+  
   make -j8
+  
   make py
   ```
 
 ### Models
-1. Models trained on ICDAR 2013: 
-1. Models trained on SVT:
+1. Models trained on ICDAR 2013: https://www.dropbox.com/s/lq11l6so2t0fsoq/TextBoxes_icdar13.caffemodel?dl=0
