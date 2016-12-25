@@ -21,6 +21,7 @@ Please cite TextBoxes in your publications if it helps your research:
 ### Contents
 1. [Installation](#installation)
 2. [Models](#models)
+3. [Test](#test)
 
 ### Installation
 1. Get the code. We will call the directory that you cloned Caffe into `$CAFFE_ROOT`
@@ -38,3 +39,9 @@ Please cite TextBoxes in your publications if it helps your research:
 
 ### Models
 1. Models trained on ICDAR 2013: https://www.dropbox.com/s/lq11l6so2t0fsoq/TextBoxes_icdar13.caffemodel?dl=0
+
+### Test
+1. Download the ICDAR 2013 DataSet
+2. Download the Models trained on ICDAR 2013
+3. Modify the relative paths in the "examples/TextBoxes/test_icdar13.py"
+4. run "python examples/test_icdar13.py"
