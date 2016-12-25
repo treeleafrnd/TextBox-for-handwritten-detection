@@ -50,4 +50,4 @@ Please cite TextBoxes in your publications if it helps your research:
 ### Performance
 1. Using the given test code, you can achieve an F-measure of about 80% on ICDAR 2013 with a single scale.
 2. You can change the given code for multi-scale inputs and do a non-maximum suppression with the multi-scale results. You will achieve an F-measure of about 86% on ICDAR 2013 in this way.
-3.More performance information, please refer to the paper and Task1 and Task4 of sdfChallenge2 on the ICDAR 2015 website: http://rrc.cvc.uab.es/?ch=2&com=evaluation
+3. More performance information, please refer to the paper and Task1 and Task4 of sdfChallenge2 on the ICDAR 2015 website: http://rrc.cvc.uab.es/?ch=2&com=evaluation
