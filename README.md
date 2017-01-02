@@ -6,7 +6,7 @@ This paper presents an end-to-end trainable fast scene text detector, named Text
 ### Citing TextBoxes
 Please cite TextBoxes in your publications if it helps your research:
 
-    @article{DBLP:journals/corr/LiaoSBWL16,
+    @article{LiaoSBWL16TextBoxes,
       author    = {Minghui Liao and
                    Baoguang Shi and
                    Xiang Bai and
