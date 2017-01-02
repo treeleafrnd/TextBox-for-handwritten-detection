@@ -44,10 +44,12 @@ Please cite TextBoxes in your publications if it helps your research:
 ### Test
 1. Download the ICDAR 2013 DataSet
 2. Download the Models trained on ICDAR 2013
-3. Modify the relative paths in the "examples/TextBoxes/test_icdar13.py"
+3. Modify the related paths in the "examples/TextBoxes/test_icdar13.py"
 4. run "python examples/test_icdar13.py"
 
 ### Performance
 1. Using the given test code, you can achieve an F-measure of about 80% on ICDAR 2013 with a single scale.
 2. You can change the given code for multi-scale inputs and do a non-maximum suppression with the multi-scale results. You will achieve an F-measure of about 86% on ICDAR 2013 in this way.
 3. More performance information, please refer to the paper and Task1 and Task4 of Challenge2 on the ICDAR 2015 website: http://rrc.cvc.uab.es/?ch=2&com=evaluation
+
+Please let me know if you encounter any issues.
