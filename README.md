@@ -39,7 +39,7 @@ Please cite TextBoxes in your publications if it helps your research:
   ```
 
 ### Models
-1. Models trained on ICDAR 2013: https://www.dropbox.com/s/lq11l6so2t0fsoq/TextBoxes_icdar13.caffemodel?dl=0
+1. Models trained on ICDAR 2013: https://www.dropbox.com/s/g8pjzv2de9gty8g/TextBoxes_icdar13.caffemodel?dl=0
 
 ### Test
 1. Download the ICDAR 2013 DataSet
