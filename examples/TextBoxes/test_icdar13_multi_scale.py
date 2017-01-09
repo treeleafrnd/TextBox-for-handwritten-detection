@@ -1,17 +1,13 @@
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import os
 import xml.dom.minidom
 # %matplotlib inline
 
-plt.rcParams['figure.figsize'] = (10, 10)
-plt.rcParams['image.interpolation'] = 'nearest'
-plt.rcParams['image.cmap'] = 'gray'
-
 # Make sure that caffe is on the python path:
 caffe_root = 'your_caffe_root/'  # this file is expected to be in {caffe_root}/examples
+import os
 os.chdir(caffe_root)
 import sys
 sys.path.insert(0, 'python')
@@ -20,12 +16,13 @@ import caffe
 caffe.set_device(0)
 caffe.set_mode_gpu()
 
+from google.protobuf import text_format
+from caffe.proto import caffe_pb2
+
 model_def = 'your_caffe_root/examples/TextBoxes/deploy.prototxt'
 model_weights = 'your_caffe_root/examples/TextBoxes/TextBoxes_icdar13.caffemodel'
 
-scales=((700,700),)
-# IMPORTANT: If use mutliple scales in the paper, you need an extra non-maximum superession for the results
-# scales=((300,300),(700,700),(700,500),(700,300),(1600,1600))
+scales=((300,300),(700,700),(700,500),(700,300),(1600,1600))
 
 
 net = caffe.Net(model_def,      # defines the structure of the model
@@ -36,14 +33,16 @@ net = caffe.Net(model_def,      # defines the structure of the model
 print(net.blobs['data'].data.shape)
 
 test_list=open('icdar_2013_dataset_root/test_list.txt')
-save_dir='your_caffe_root/data/TextBoxes/test_bb/'
+save_dir='your_caffe_root/data/TextBoxes/test_bb_multi_scale/'
 for line in test_list.readlines():
 	line=line.strip()
 	image_name=line
 	image_path='icdar_2013_dataset_root/test_images/'+line
-	save_detection_path=save_dir+'res_'+line[0:len(line)-4]+'.txt'
+	save_detection_path=save_dir+line[0:len(line)-4]+'.txt'
+	print(image_path)
 	image=caffe.io.load_image(image_path)
 	image_height,image_width,channels=image.shape
+	print(max(image_height,image_width))
 	detection_result=open(save_detection_path,'wt')
 	for scale in scales:
 		image_resize_height = scale[0]
@@ -69,40 +68,30 @@ for line in test_list.readlines():
 		det_xmax = detections[0,0,:,5]
 		det_ymax = detections[0,0,:,6]
 
-		top_indices = [i for i, conf in enumerate(det_conf) if conf >= 0.6]
+		# Get detections with confidence higher than 0.1.
+		top_indices = [i for i, conf in enumerate(det_conf) if conf >= 0.1]
 
 		top_conf = det_conf[top_indices]
+		top_label_indices = det_label[top_indices].tolist()
+		top_labels = get_labelname(voc_labelmap, top_label_indices)
 		top_xmin = det_xmin[top_indices]
 		top_ymin = det_ymin[top_indices]
 		top_xmax = det_xmax[top_indices]
 		top_ymax = det_ymax[top_indices]
 
-		plt.clf()
-		plt.imshow(image)
-		currentAxis = plt.gca()
-		
 		for i in xrange(top_conf.shape[0]):
 			xmin = int(round(top_xmin[i] * image.shape[1]))
 			ymin = int(round(top_ymin[i] * image.shape[0]))
 			xmax = int(round(top_xmax[i] * image.shape[1]))
 			ymax = int(round(top_ymax[i] * image.shape[0]))
-			xmin = max(1,xmin)
-			ymin = max(1,ymin)
+			xmin = max(1, xmin)
+			ymin = max(1, ymin)
 			xmax = min(image.shape[1]-1, xmax)
 			ymax = min(image.shape[0]-1, ymax)
 			score = top_conf[i]
-			result=str(xmin)+','+str(ymin)+','+str(xmax)+','+str(ymax)+'\r\n'
+			result=str(xmin)+' '+str(ymin)+' '+str(xmax)+' '+str(ymin)+' '+str(xmax)+' '+str(ymax)+' '+str(xmin)+' '+str(ymax)+' '+str(score)+'\n'
 			detection_result.write(result)
-			
-			name = '%.2f'%(score)
-			coords = (xmin, ymin), xmax-xmin+1, ymax-ymin+1
-			color = 'b'
-			currentAxis.add_patch(plt.Rectangle(*coords, fill=False, edgecolor=color, linewidth=2))
-			currentAxis.text(xmin, ymin, name, bbox={'facecolor':'white', 'alpha':0.5})
-
 	detection_result.close()
-
-	plt.savefig('your_caffe_root/data/TextBoxes/visu_icdar13/'+image_name)
 test_list.close()
 print('success')
 
