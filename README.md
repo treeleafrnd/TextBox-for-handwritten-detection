@@ -50,7 +50,7 @@ Please cite TextBoxes in your publications if it helps your research:
 2. Download the Models trained on ICDAR 2013
 3. Modify the related paths in the "examples/TextBoxes/test_icdar13.py"
 4. run "python examples/test_icdar13.py"
-
+5. To multi-scale test, you should use "test_icdar13_multi_scale.py" and "evaluation_nms.m"
 ### Train
 1. Train about 50k iterions on Synthetic data which refered in the paper.
 2. Train about 2k iterions on corresponding training data such as ICDAR 2013 and SVT.
@@ -58,7 +58,7 @@ Please cite TextBoxes in your publications if it helps your research:
 
 ### Performance
 1. Using the given test code, you can achieve an F-measure of about 80% on ICDAR 2013 with a single scale.
-2. Using the given multi-scales test code, you can achieve an F-measure of about 85% on ICDAR 2013 with a non-maximum suppression.
+2. Using the given multi-scale test code, you can achieve an F-measure of about 85% on ICDAR 2013 with a non-maximum suppression.
 3. More performance information, please refer to the paper and Task1 and Task4 of Challenge2 on the ICDAR 2015 website: http://rrc.cvc.uab.es/?ch=2&com=evaluation
 
 Please let me know if you encounter any issues.
