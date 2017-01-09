@@ -51,6 +51,7 @@ Please cite TextBoxes in your publications if it helps your research:
 3. Modify the related paths in the "examples/TextBoxes/test_icdar13.py"
 4. run "python examples/test_icdar13.py"
 5. To multi-scale test, you should use "test_icdar13_multi_scale.py" and "evaluation_nms.m"
+
 ### Train
 1. Train about 50k iterions on Synthetic data which refered in the paper.
 2. Train about 2k iterions on corresponding training data such as ICDAR 2013 and SVT.
