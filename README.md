@@ -28,11 +28,9 @@ Please cite TextBoxes in your publications if it helps your research:
 ### Installation
 1. Get the code. We will call the directory that you cloned Caffe into `$CAFFE_ROOT`
   ```Shell
-  git clone https://github.com/MhLiao/caffe.git
+  git clone https://github.com/MhLiao/TextBoxes.git
   
-  cd caffe
-  
-  git checkout TextBoxes
+  cd TextBoxes
   
   make -j8
   
@@ -42,7 +40,7 @@ Please cite TextBoxes in your publications if it helps your research:
 ### Download
 1. Models trained on ICDAR 2013: [Dropbox link](https://www.dropbox.com/s/g8pjzv2de9gty8g/TextBoxes_icdar13.caffemodel?dl=0) [BaiduYun link](http://pan.baidu.com/s/1qY73XHq)
 2. Fully convolutional reduced (atrous) VGGNet: [Dropbox link](https://www.dropbox.com/s/qxc64az0a21vodt/VGG_ILSVRC_16_layers_fc_reduced.caffemodel?dl=0) [BaiduYun link](http://pan.baidu.com/s/1slQyMiL)
-3. Compiled mex file for non-maximum suppression(if you can not compile the 'polygon_intersect.cpp' correctly): [Dropbox link](https://www.dropbox.com/s/xtjuwvphxnz1nl8/polygon_intersect.mexa64?dl=0) [BaiduYun link](http://pan.baidu.com/s/1jIe9UWA)
+3. Compiled mex file for evaluation(for multi-scale test evaluation: evaluation_nms.m): [Dropbox link](https://www.dropbox.com/s/xtjuwvphxnz1nl8/polygon_intersect.mexa64?dl=0) [BaiduYun link](http://pan.baidu.com/s/1jIe9UWA)
 
 
 ### Test
