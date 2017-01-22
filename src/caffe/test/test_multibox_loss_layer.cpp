@@ -212,7 +212,7 @@ class MultiBoxLossLayerTest : public MultiDeviceTest<TypeParam> {
     convolution_param->add_pad(0);
     convolution_param->add_kernel_size(1);
     convolution_param->add_stride(1);
-    int num_output = num_priors_per_location_ * loc_classes * 4;
+    int num_output = 2 * num_priors_per_location_ * loc_classes * 4;
     convolution_param->set_num_output(num_output);
     convolution_param->mutable_weight_filler()->set_type("xavier");
     convolution_param->mutable_bias_filler()->set_type("constant");
@@ -256,11 +256,11 @@ class MultiBoxLossLayerTest : public MultiDeviceTest<TypeParam> {
     flatten_layer.Forward(fake_bottom_vec, fake_top_vec);
 
     // 3) Fill bbox confidence predictions.
-    convolution_param->set_num_output(num_priors_per_location_ * num_classes_);
+    convolution_param->set_num_output(2 * num_priors_per_location_ * num_classes_);
     ConvolutionLayer<Dtype> conv_layer_conf(layer_param);
     fake_bottom_vec.clear();
     fake_bottom_vec.push_back(fake_blob);
-    num_output = num_priors_per_location_ * num_classes_;
+    num_output = 2 * num_priors_per_location_ * num_classes_;
     Blob<Dtype> fake_output_conf;
     fake_top_vec.clear();
     fake_top_vec.push_back(&fake_output_conf);
