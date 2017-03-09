@@ -73,7 +73,6 @@ for line in test_list.readlines():
 
 		top_conf = det_conf[top_indices]
 		top_label_indices = det_label[top_indices].tolist()
-		top_labels = get_labelname(voc_labelmap, top_label_indices)
 		top_xmin = det_xmin[top_indices]
 		top_ymin = det_ymin[top_indices]
 		top_xmax = det_xmax[top_indices]
