@@ -37,7 +37,7 @@ net = caffe.Net(model_def,      # defines the structure of the model
 
 dt_results=[]
 
-image_path='./examples/img/img_26.jpg'
+image_path='./examples/img/demo.jpg'
 image=caffe.io.load_image(image_path)
 image_height,image_width,channels=image.shape
 plt.clf()
