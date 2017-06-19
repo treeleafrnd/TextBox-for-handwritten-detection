@@ -44,9 +44,9 @@ Please cite TextBoxes in your publications if it helps your research:
 
 
 ### Test
-run "python examples/demo.py"
-You can modify the "use_multi_scale" in the "examples/demo.py" script to control whether to use multi-scale or not.
-The results are saved in the "examples/results/"
+1. run "python examples/demo.py".
+2. You can modify the "use_multi_scale" in the "examples/demo.py" script to control whether to use multi-scale or not.
+3. The results are saved in the "examples/results/".
 
 
 ### Train
