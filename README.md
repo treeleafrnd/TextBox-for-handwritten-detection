@@ -44,11 +44,10 @@ Please cite TextBoxes in your publications if it helps your research:
 
 
 ### Test
-1. Download the ICDAR 2013 DataSet
-2. Download the Models trained on ICDAR 2013
-3. Modify the related paths in the "examples/TextBoxes/test_icdar13.py"
-4. run "python examples/test_icdar13.py"
-5. To multi-scale test, you should use "test_icdar13_multi_scale.py" and "evaluation_nms.m"
+run "python examples/demo.py"
+You can modify the "use_multi_scale" in the "examples/demo.py" script to control whether to use multi-scale or not.
+The results are saved in the "examples/results/"
+
 
 ### Train
 1. Train about 50k iterions on Synthetic data which refered in the paper.
