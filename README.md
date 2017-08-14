@@ -59,4 +59,36 @@ Please cite TextBoxes in your publications if it helps your research:
 2. Using the given multi-scale test code, you can achieve an F-measure of about 85% on ICDAR 2013 with a non-maximum suppression.
 3. More performance information, please refer to the paper and Task1 and Task4 of Challenge2 on the ICDAR 2015 website: http://rrc.cvc.uab.es/?ch=2&com=evaluation
 
+### Data preparation for training
+The reference xml file is as following:
+  
+        <?xml version="1.0" encoding="utf-8"?>
+        <annotation>
+            <object>
+                <name>text</name>
+                <bndbox>
+                    <xmin>158</xmin>
+                    <ymin>128</ymin>
+                    <xmax>411</xmax>
+                    <ymax>181</ymax>
+                </bndbox>
+            </object>
+            <object>
+                <name>text</name>
+                <bndbox>
+                    <xmin>443</xmin>
+                    <ymin>128</ymin>
+                    <xmax>501</xmax>
+                    <ymax>169</ymax>
+                </bndbox>
+            </object>
+            <folder></folder>
+            <filename>100.jpg</filename>
+            <size>
+                <width>640</width>
+                <height>480</height>
+                <depth>3</depth>
+            </size>
+        </annotation>
+
 Please let me know if you encounter any issues.
