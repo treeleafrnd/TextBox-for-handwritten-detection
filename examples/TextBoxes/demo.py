@@ -92,7 +92,7 @@ dt_results = sorted(dt_results, key=lambda x:-float(x[8]))
 nms_flag = nms(dt_results,0.3)
 
 for k,dt in enumerate(dt_results):
-      if nms_flag[k]:
+	if nms_flag[k]:
 		name = '%.2f'%(dt[8])
 		xmin = dt[0]
 		ymin = dt[1]
