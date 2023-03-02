@@ -1,5 +1,8 @@
 # TextBoxes: A Fast Text Detector with a Single Deep Neural Network
 
+This is the work of https://github.com/MhLiao/TextBoxes_plusplus with brief modification + implementaion for OpenCV > 4.
+This project is done in Google Colaboratory.
+
 Recommend: [TextBoxes++](https://github.com/MhLiao/TextBoxes_plusplus) is an extended work of TextBoxes, which supports oriented scene text detection. The recognition part is also included in [TextBoxes++](https://github.com/MhLiao/TextBoxes_plusplus).
 
 ### Introduction
@@ -19,6 +22,8 @@ Please cite TextBoxes in your publications if it helps your research:
       year      = {2017}
     }
 
+### Using this repository
+1. Run TextBox.ipynb (All the process explained below is implemeted here.)
 
 ### Contents
 1. [Installation](#installation)
@@ -30,7 +35,7 @@ Please cite TextBoxes in your publications if it helps your research:
 ### Installation
 1. Get the code. We will call the directory that you cloned Caffe into `$CAFFE_ROOT`
   ```Shell
-  git clone https://github.com/MhLiao/TextBoxes.git
+  git clone https://github.com/treeleafrnd/TextBox.git
   
   cd TextBoxes
   
@@ -39,29 +44,33 @@ Please cite TextBoxes in your publications if it helps your research:
   make py
   ```
 
-### Download
-1. Models trained on ICDAR 2013: [Dropbox link](https://www.dropbox.com/s/g8pjzv2de9gty8g/TextBoxes_icdar13.caffemodel?dl=0) [BaiduYun link](http://pan.baidu.com/s/1qY73XHq)
-2. Fully convolutional reduced (atrous) VGGNet: [Dropbox link](https://www.dropbox.com/s/qxc64az0a21vodt/VGG_ILSVRC_16_layers_fc_reduced.caffemodel?dl=0) [BaiduYun link](http://pan.baidu.com/s/1slQyMiL)
-3. Compiled mex file for evaluation(for multi-scale test evaluation: evaluation_nms.m): [Dropbox link](https://www.dropbox.com/s/xtjuwvphxnz1nl8/polygon_intersect.mexa64?dl=0) [BaiduYun link](http://pan.baidu.com/s/1jIe9UWA)
-
-
 ### Test
 1. run "python examples/demo.py".
 2. You can modify the "use_multi_scale" in the "examples/demo.py" script to control whether to use multi-scale or not.
 3. The results are saved in the "examples/results/".
 
+### Preparing Dataset
+1. Training is done in  custom dataset. The files are included in /dataset/
+2. Before creating lmdb train.txt/test.txt are created. (included in /data/text/)
+3. sh create.sh is executed to create lmdb dataset (included in /data/lmdb)
 
 ### Train
-1. Train about 50k iterions on Synthetic data which refered in the paper.
-2. Train about 2k iterions on corresponding training data such as ICDAR 2013 and SVT.
-3. For more information, such as learning rate setting, please refer to the paper.
+1. run "python examples/TextBoxes/train_icdar13.py".
+2. set the model parameters accordingly.
+
 
 ### Performance
-1. Using the given test code, you can achieve an F-measure of about 80% on ICDAR 2013 with a single scale.
-2. Using the given multi-scale test code, you can achieve an F-measure of about 85% on ICDAR 2013 with a non-maximum suppression.
-3. More performance information, please refer to the paper and Task1 and Task4 of Challenge2 on the ICDAR 2015 website: http://rrc.cvc.uab.es/?ch=2&com=evaluation
+1. Using the dataset, setting the iteration to 200 it achieves 69% accuracy.
 
-### Data preparation for training
+Before Training
+
+![demo_before](https://user-images.githubusercontent.com/99968233/222384689-d166e8cd-3273-4fe0-aae9-5df715dfe49d.jpeg)
+
+After Training
+
+![demo_after](https://user-images.githubusercontent.com/99968233/222384676-3980dfaf-3a41-45c7-a079-214b099257a4.png)
+
+### Text Annotation for training (Labeling done using LabelImg)
 The reference xml file is as following:
   
         <?xml version="1.0" encoding="utf-8"?>
@@ -93,4 +102,39 @@ The reference xml file is as following:
             </size>
         </annotation>
 
-Please let me know if you encounter any issues.
+### Changes made in the repository:
+
+1. Makefile.config
+2. Makefile
+3. src/caffe/util/io.cpp
+4. src/caffe/util/bbox_util.cpp
+5. src/caffe/util/im_transforms.cpp
+6. src/caffe/layers/window_data_layer.cpp
+7. src/caffe/layers/video_data_layer.cpp
+
+
+ INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial/ /usr/include/hdf5/serial/ /usr/include/hdf5/serial/ (Makefile.config)
+ LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib  /usr/lib/x86_64-linux-gnu/hdf5/serial (Makefile.config)
+
+ LIBRARIES += opencv_core opencv_highgui opencv_imgproc opencv_videoio (Makefile)
+
+ Annotate CPU_ONLY := 1 in Makefile.config (GPU requirement is mandatory)
+
+ PYTHON_LIBRARIES := boost_python38 python3.8
+ PYTHON_INCLUDE := /usr/include/python3.8 \
+                 /usr/lib/python3.8/dist-packages/numpy/core/include
+
+
+After compiling make.py using GPU sucessfully
+edit:
+    caffe/io.py ----> line 296 -----> as_grey to as_gray
+    demo_det.py ----> xrange to range
+    
+All these and other changes in .cpp and .py files which are necessary for OpenCV version > 4 users are done in this repository.
+Similarly, change for google colab users has been done as needed.
+
+Training and Testing dataset are collected from GoodNotes.
+Fine tuning is done in ICDAR dataset with addition 12 images from goodnotes. 
+
+
+
