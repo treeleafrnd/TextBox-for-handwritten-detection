@@ -155,12 +155,12 @@ void CenterObjectAndFillBg(const cv::Mat& in_img, const bool fill_bg,
   cv::Mat mask, crop_mask;
   if (in_img.channels() > 1) {
     cv::Mat in_img_gray;
-    cv::cvtColor(in_img, in_img_gray, CV_BGR2GRAY);
+    cv::cvtColor(in_img, in_img_gray, cv::COLOR_BGR2GRAY);
     cv::threshold(in_img_gray, mask, 0, 255,
-                  CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
+                  cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
   } else {
     cv::threshold(in_img, mask, 0, 255,
-                  CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
+                  cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
   }
   cv::Rect crop_rect = CropMask(mask, mask.at<uchar>(0, 0), 2);
 
@@ -397,8 +397,8 @@ cv::Mat ApplyNoise(const cv::Mat& in_img, const NoiseParameter& param) {
 
   if (param.decolorize()) {
     cv::Mat grayscale_img;
-    cv::cvtColor(in_img, grayscale_img, CV_BGR2GRAY);
-    cv::cvtColor(grayscale_img, out_img,  CV_GRAY2BGR);
+    cv::cvtColor(in_img, grayscale_img, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(grayscale_img, out_img,  cv::COLOR_GRAY2BGR);
   } else {
     out_img = in_img;
   }
@@ -410,7 +410,7 @@ cv::Mat ApplyNoise(const cv::Mat& in_img, const NoiseParameter& param) {
   if (param.hist_eq()) {
     if (out_img.channels() > 1) {
       cv::Mat ycrcb_image;
-      cv::cvtColor(out_img, ycrcb_image, CV_BGR2YCrCb);
+      cv::cvtColor(out_img, ycrcb_image, cv::COLOR_BGR2YCrCb);
       // Extract the L channel
       vector<cv::Mat> ycrcb_planes(3);
       cv::split(ycrcb_image, ycrcb_planes);
@@ -420,7 +420,7 @@ cv::Mat ApplyNoise(const cv::Mat& in_img, const NoiseParameter& param) {
       ycrcb_planes[0] = dst;
       cv::merge(ycrcb_planes, ycrcb_image);
       // convert back to RGB
-      cv::cvtColor(ycrcb_image, out_img, CV_YCrCb2BGR);
+      cv::cvtColor(ycrcb_image, out_img, cv::COLOR_YCrCb2BGR);
     } else {
       cv::Mat temp_img;
       cv::equalizeHist(out_img, temp_img);
@@ -433,7 +433,7 @@ cv::Mat ApplyNoise(const cv::Mat& in_img, const NoiseParameter& param) {
     clahe->setClipLimit(4);
     if (out_img.channels() > 1) {
       cv::Mat ycrcb_image;
-      cv::cvtColor(out_img, ycrcb_image, CV_BGR2YCrCb);
+      cv::cvtColor(out_img, ycrcb_image, cv::COLOR_BGR2YCrCb);
       // Extract the L channel
       vector<cv::Mat> ycrcb_planes(3);
       cv::split(ycrcb_image, ycrcb_planes);
@@ -443,7 +443,7 @@ cv::Mat ApplyNoise(const cv::Mat& in_img, const NoiseParameter& param) {
       ycrcb_planes[0] = dst;
       cv::merge(ycrcb_planes, ycrcb_image);
       // convert back to RGB
-      cv::cvtColor(ycrcb_image, out_img, CV_YCrCb2BGR);
+      cv::cvtColor(ycrcb_image, out_img, cv::COLOR_YCrCb2BGR);
     } else {
       cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE();
       clahe->setClipLimit(4);
@@ -456,10 +456,10 @@ cv::Mat ApplyNoise(const cv::Mat& in_img, const NoiseParameter& param) {
   if (param.jpeg() > 0) {
     vector<uchar> buf;
     vector<int> params;
-    params.push_back(CV_IMWRITE_JPEG_QUALITY);
+    params.push_back(cv::IMWRITE_JPEG_QUALITY);
     params.push_back(param.jpeg());
     cv::imencode(".jpg", out_img, buf, params);
-    out_img = cv::imdecode(buf, CV_LOAD_IMAGE_COLOR);
+    out_img = cv::imdecode(buf, cv::IMREAD_COLOR);
   }
 
   if (param.erode()) {
@@ -507,14 +507,14 @@ cv::Mat ApplyNoise(const cv::Mat& in_img, const NoiseParameter& param) {
 
   if (param.convert_to_hsv()) {
     cv::Mat hsv_image;
-    cv::cvtColor(out_img, hsv_image, CV_BGR2HSV);
+    cv::cvtColor(out_img, hsv_image, cv::COLOR_BGR2HSV);
     out_img = hsv_image;
   }
   if (param.convert_to_lab()) {
     cv::Mat lab_image;
     out_img.convertTo(lab_image, CV_32F);
     lab_image *= 1.0 / 255;
-    cv::cvtColor(lab_image, out_img, CV_BGR2Lab);
+    cv::cvtColor(lab_image, out_img, cv::COLOR_BGR2Lab);
   }
   return  out_img;
 }

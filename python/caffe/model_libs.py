@@ -13,17 +13,17 @@ def make_if_not_exist(path):
         os.makedirs(path)
 
 def UnpackVariable(var, num):
-  assert len > 0
+  #assert len > 0
   if type(var) is list and len(var) == num:
     return var
   else:
     ret = []
     if type(var) is list:
       assert len(var) == 1
-      for i in xrange(0, num):
+      for i in range(0, num):
         ret.append(var[0])
     else:
-      for i in xrange(0, num):
+      for i in range(0, num):
         ret.append(var)
     return ret
 
@@ -127,7 +127,7 @@ def ResBody(net, from_layer, block_name, out2a, out2b, out2c, stride, use_branch
         bn_prefix=bn_prefix, bn_postfix=bn_postfix,
         scale_prefix=scale_prefix, scale_postfix=scale_postfix)
   else:
-    pad = int((3 + (dilation - 1) * 2) - 1) / 2
+    pad = int((3 + (dilation - 1) * 2) - 1) // 2
     ConvBNLayer(net, out_name, branch_name, use_bn=True, use_relu=True,
         num_output=out2b, kernel_size=3, pad=pad, stride=1, use_scale=use_scale,
         dilation=dilation, conv_prefix=conv_prefix, conv_postfix=conv_postfix,
@@ -340,7 +340,7 @@ def ResNet101Body(net, from_layer, use_pool5=True, use_dilation_conv5=False):
     ResBody(net, 'res2c', '3a', out2a=128, out2b=128, out2c=512, stride=2, use_branch1=True)
 
     from_layer = 'res3a'
-    for i in xrange(1, 4):
+    for i in range(1, 4):
       block_name = '3b{}'.format(i)
       ResBody(net, from_layer, block_name, out2a=128, out2b=128, out2c=512, stride=1, use_branch1=False)
       from_layer = 'res{}'.format(block_name)
@@ -348,7 +348,7 @@ def ResNet101Body(net, from_layer, use_pool5=True, use_dilation_conv5=False):
     ResBody(net, from_layer, '4a', out2a=256, out2b=256, out2c=1024, stride=2, use_branch1=True)
 
     from_layer = 'res4a'
-    for i in xrange(1, 23):
+    for i in range(1, 23):
       block_name = '4b{}'.format(i)
       ResBody(net, from_layer, block_name, out2a=256, out2b=256, out2c=1024, stride=1, use_branch1=False)
       from_layer = 'res{}'.format(block_name)
@@ -391,7 +391,7 @@ def ResNet152Body(net, from_layer, use_pool5=True, use_dilation_conv5=False):
     ResBody(net, 'res2c', '3a', out2a=128, out2b=128, out2c=512, stride=2, use_branch1=True)
 
     from_layer = 'res3a'
-    for i in xrange(1, 8):
+    for i in range(1, 8):
       block_name = '3b{}'.format(i)
       ResBody(net, from_layer, block_name, out2a=128, out2b=128, out2c=512, stride=1, use_branch1=False)
       from_layer = 'res{}'.format(block_name)
@@ -399,7 +399,7 @@ def ResNet152Body(net, from_layer, use_pool5=True, use_dilation_conv5=False):
     ResBody(net, from_layer, '4a', out2a=256, out2b=256, out2c=1024, stride=2, use_branch1=True)
 
     from_layer = 'res4a'
-    for i in xrange(1, 36):
+    for i in range(1, 36):
       block_name = '4b{}'.format(i)
       ResBody(net, from_layer, block_name, out2a=256, out2b=256, out2c=1024, stride=1, use_branch1=False)
       from_layer = 'res{}'.format(block_name)
@@ -460,7 +460,7 @@ def InceptionV3Body(net, from_layer, output_pred=False):
   from_layer = out_layer
 
   # inceptions with 1x1, 3x3, 5x5 convolutions
-  for inception_id in xrange(0, 3):
+  for inception_id in range(0, 3):
     if inception_id == 0:
       out_layer = 'mixed'
       tower_2_conv_num_output = 32
@@ -521,7 +521,7 @@ def InceptionV3Body(net, from_layer, output_pred=False):
   from_layer = out_layer
 
   # inceptions with 1x1, 7x1, 1x7 convolutions
-  for inception_id in xrange(4, 8):
+  for inception_id in range(4, 8):
     if inception_id == 4:
       num_output = 128
     elif inception_id == 5 or inception_id == 6:
@@ -587,7 +587,7 @@ def InceptionV3Body(net, from_layer, output_pred=False):
   net[out_layer] = L.Concat(*towers, axis=1)
   from_layer = out_layer
 
-  for inception_id in xrange(9, 11):
+  for inception_id in range(9, 11):
     num_output = 384
     num_output2 = 448
     if inception_id == 9:

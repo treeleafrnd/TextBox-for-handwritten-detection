@@ -20,10 +20,16 @@ import caffe
 caffe.set_device(0)
 caffe.set_mode_gpu()
 
-model_def = './examples/TextBoxes/deploy.prototxt'
-model_weights = './examples/TextBoxes/TextBoxes_icdar13.caffemodel'
+Flag = True
 
-use_multi_scale = True
+if Flag:
+  model_def = './models/VGGNet/text/longer_conv_300x300/deploy.prototxt'
+  model_weights = './models/VGGNet/text/longer_conv_300x300/VGG_text_longer_conv_300x300_iter_200.caffemodel'
+else:
+  model_def = './examples/TextBoxes/deploy.prototxt'
+  model_weights = './examples/TextBoxes/TextBoxes_icdar13.caffemodel'
+
+use_multi_scale = False
 
 if not use_multi_scale:
 	scales=((700,700),)
@@ -37,7 +43,7 @@ net = caffe.Net(model_def,      # defines the structure of the model
 
 dt_results=[]
 
-image_path='./examples/img/demo.jpg'
+image_path='./examples/img/demo2.jpg'
 image=caffe.io.load_image(image_path)
 image_height,image_width,channels=image.shape
 plt.clf()
@@ -72,7 +78,7 @@ for scale in scales:
 	top_xmax = det_xmax[top_indices]
 	top_ymax = det_ymax[top_indices]
 
-	for i in xrange(top_conf.shape[0]):
+	for i in range(top_conf.shape[0]):
 		xmin = int(round(top_xmin[i] * image.shape[1]))
 		ymin = int(round(top_ymin[i] * image.shape[0]))
 		xmax = int(round(top_xmax[i] * image.shape[1]))
@@ -106,4 +112,3 @@ for k,dt in enumerate(dt_results):
 plt.savefig('./examples/results/demo_result.jpg')
 
 print('success')
-

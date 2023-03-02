@@ -1,4 +1,6 @@
 from __future__ import print_function
+import sys
+sys.path.insert(0,'/content/drive/MyDrive/TextBoxes/python/')
 import caffe
 from caffe.model_libs import *
 from google.protobuf import text_format
@@ -8,7 +10,7 @@ import os
 import shutil
 import stat
 import subprocess
-import sys
+#import sys
 
 # Add extra layers on top of a "base" network (e.g. VGGNet or Inception).
 def AddExtraLayers(net, use_batchnorm=True):
@@ -24,7 +26,7 @@ def AddExtraLayers(net, use_batchnorm=True):
     out_layer = "conv6_2"
     ConvBNLayer(net, from_layer, out_layer, use_batchnorm, use_relu, 512, 3 , 1, 2)
 
-    for i in xrange(7, 9):
+    for i in range(7, 9):
       from_layer = out_layer
       out_layer = "conv{}_1".format(i)
       ConvBNLayer(net, from_layer, out_layer, use_batchnorm, use_relu, 128, 1, 0, 1)
@@ -54,9 +56,9 @@ resume_training = True
 remove_old_models = False
 
 # The database file for training data. Created by data/text/create_data.sh
-train_data = "path_to_train_lmdb/text_icdar_trainval_lmdb"
+train_data = "data/lmdb/lmdb/text_train_lmdb"
 # The database file for testing data. Created by data/text_10x/create_data.sh
-test_data = "path_to_test_lmdb/text_icdar_test_lmdb"
+test_data = "data/lmdb/lmdb/text_test_lmdb"
 # Specify the batch sampler.
 resize_width = 300
 resize_height = 300
@@ -215,7 +217,7 @@ job_file = "{}/{}.sh".format(job_dir, model_name)
 # Stores the test image names and sizes. Created by data/text/create_list.sh
 # name_size_file = "data/text/test_name_size.txt"
 # The pretrained model. We use the Fully convolutional reduced (atrous) VGGNet.
-pretrain_model = "models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
+pretrain_model = "examples/TextBoxes/TextBoxes_icdar13.caffemodel"
 # Stores LabelMapItem.
 label_map_file = "examples/TextBoxes/labelmap_voc.prototxt"
 
@@ -264,7 +266,7 @@ max_ratio = 95
 step = int(math.floor((max_ratio - min_ratio) / (len(mbox_source_layers) - 2)))
 min_sizes = []
 max_sizes = []
-for ratio in xrange(min_ratio, max_ratio + 1, step):
+for ratio in range(min_ratio, max_ratio + 1, step):
   min_sizes.append(min_dim * ratio / 100.)
   max_sizes.append(min_dim * (ratio + step) / 100.)
 min_sizes = [min_dim * 10 / 100.] + min_sizes
@@ -289,7 +291,7 @@ num_gpus = len(gpulist)
 # Divide the mini-batch to different GPUs.
 batch_size = 32
 accum_batch_size = 32
-iter_size = accum_batch_size / batch_size
+iter_size = accum_batch_size // batch_size
 solver_mode = P.Solver.CPU
 device_id = 0
 batch_size_per_device = batch_size
@@ -314,7 +316,7 @@ freeze_layers = ['conv1_1', 'conv1_2', 'conv2_1', 'conv2_2']
 # Evaluate on whole test set.
 num_test_image = 233
 test_batch_size = 1
-test_iter = num_test_image / test_batch_size
+test_iter = num_test_image // test_batch_size
 
 solver_param = {
     # Train parameters
@@ -325,7 +327,7 @@ solver_param = {
     'gamma': 0.1,
     'momentum': 0.9,
     'iter_size': iter_size,
-    'max_iter': 120000,
+    'max_iter': 200,
     'snapshot': 500,
     'display': 10,
     'average_loss': 10,
@@ -336,7 +338,7 @@ solver_param = {
     'snapshot_after_train': True,
     # Test parameters
     'test_iter': [test_iter],
-    'test_interval': 500,
+    'test_interval': 50,
     'eval_type': "detection",
     'ap_version': "11point",
     'test_initialization': False,
@@ -475,7 +477,6 @@ solver = caffe_pb2.SolverParameter(
         test_net=[test_net_file],
         snapshot_prefix=snapshot_prefix,
         **solver_param)
-
 with open(solver_file, 'w') as f:
     print(solver, file=f)
 
