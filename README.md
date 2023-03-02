@@ -63,8 +63,11 @@ Please cite TextBoxes in your publications if it helps your research:
 1. Using the dataset, setting the iteration to 200 it achieves 69% accuracy.
 
 Before Training
+
 ![demo_before](https://user-images.githubusercontent.com/99968233/222384689-d166e8cd-3273-4fe0-aae9-5df715dfe49d.jpeg)
+
 After Training
+
 ![demo_after](https://user-images.githubusercontent.com/99968233/222384676-3980dfaf-3a41-45c7-a079-214b099257a4.png)
 
 ### Text Annotation for training (Labeling done using LabelImg)
