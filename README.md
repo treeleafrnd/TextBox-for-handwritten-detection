@@ -22,6 +22,8 @@ Please cite TextBoxes in your publications if it helps your research:
       year      = {2017}
     }
 
+### Using this repository
+1. Run TextBox.ipynb (All the process explained below is implemeted here.)
 
 ### Contents
 1. [Installation](#installation)
@@ -33,7 +35,7 @@ Please cite TextBoxes in your publications if it helps your research:
 ### Installation
 1. Get the code. We will call the directory that you cloned Caffe into `$CAFFE_ROOT`
   ```Shell
-  git clone https://github.com/MhLiao/TextBoxes.git
+  git clone https://github.com/treeleafrnd/TextBox.git
   
   cd TextBoxes
   
@@ -41,10 +43,6 @@ Please cite TextBoxes in your publications if it helps your research:
   
   make py
   ```
-
-### Download
-1. 
-
 
 ### Test
 1. run "python examples/demo.py".
@@ -101,7 +99,7 @@ The reference xml file is as following:
             </size>
         </annotation>
 
-Changes made in the repository:
+###Changes made in the repository:
 
 1. Makefile.config
 2. Makefile
@@ -135,7 +133,5 @@ Similarly, change for google colab users has been done as needed.
 Training and Testing dataset are collected from GoodNotes.
 Fine tuning is done in ICDAR dataset with addition 12 images from goodnotes. 
 
-Before training multiple errors are fixed in:
-python/caffe/model_lib.py
 
 
